@@ -1,0 +1,25 @@
+<div *ngIf="canCall" class="container-fluid container-fluid-cst">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <h1 class="page-header--text">{{revieweeData.reviewer}}'s Response for {{revieweeData.reviewee}}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="review-header">
+                        <span class="d-block"><strong>Session: </strong>{{revieweeData.sessionName}}</span>
+                        <span class="d-block"><strong>Deadline: </strong>{{revieweeData.sessionEndingDate|date}}</span>
+                    </div>
+                    <hr>
+                    <dynamic-form-builder (onSubmit)="onSubmit($event)" [mappingId]="revieweeData.mappingId"
+                        [templateId]="revieweeData.templateId" [readOnly]="false">
+                    </dynamic-form-builder>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

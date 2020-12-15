@@ -1,0 +1,8 @@
+<div [formGroup]="form">
+  <textarea [rows]="1" [cols]="80" autoResize="true" pInputTextarea (blur)="trimValue($event)" [name]="field.name"
+    [formControlName]="field.name"></textarea>
+  <div *ngIf="(controls.touched || controls.dirty)">
+    <div *ngIf="controls.errors?.required" class="text-danger mt-1"><small> Answer is required</small></div>
+    <div *ngIf="controls.errors?.maxlength" class="text-danger mt-1"><small> 400 characters limit exceeded</small></div>
+  </div>
+</div>

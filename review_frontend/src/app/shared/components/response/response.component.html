@@ -1,0 +1,44 @@
+<div class="container-fluid container-fluid-cst">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <h1 class="page-header--text content-header-back">{{record.reviewer}}'s Response for
+                    {{record.reviewee}}
+                </h1>
+                <ul class="simple-list">
+                    <li><span title="Template Name" class="badge badge-pill badge-success"><i class="fa fa-file-o"></i>
+                            {{record.templateName}}</span></li>
+                    <li *ngIf="user == record.reviewerId && record.status ==='Submitted' && !editable">
+                        <button class="btn primary-btn" (click)="edit()">Edit</button>
+                    </li>
+                    <li>
+                        <button class="btn primary-btn" (click)="Back()">Back</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <dynamic-form-builder *ngIf="editable" (onSubmit)="onSubmit($event)" [mappingId]="mappingId"
+                        [templateId]="revieweeData.templateId" [readOnly]="false" [isEditable]="editable">
+                    </dynamic-form-builder>
+                    <app-review-response *ngIf="canCallDynamicForm && !editable" [templateId]="record.templateId"
+                        [mappingId]="mappingId">
+                    </app-review-response>
+                    <h4 *ngIf="canCallComment && (commentData.comments.length !== 0 || record.status === flag)"
+                        class="section-sub-title border-top">Comments</h4>
+                    <app-comment *ngIf="canCallComment" [mappingId]="mappingId" [reviewee]="record.revieweeId"
+                        [status]="record.status" [commentData]="commentData"
+                        (modifiedCommentsData)="modifiedCommentsData($event)" (reloadCommentsData)="loadComments()">
+                    </app-comment>
+                    <div class="pt-3 border-top text-right" *ngIf="record.status === flag && role === 'ROLE_SADMIN'">
+                        <button class="btn primary-btn" [disabled]="disabledButton" (click)="publish()">Publish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

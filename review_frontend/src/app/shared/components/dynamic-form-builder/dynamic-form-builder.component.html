@@ -1,0 +1,26 @@
+<form *ngIf="canRender" (ngSubmit)="submit()" [formGroup]="form" class="form-horizontal">
+    <div class="mb-4" *ngFor="let field of fields">
+        <app-field-builder [field]="field" [form]="form"></app-field-builder>
+    </div>
+    <div *ngIf="!readOnly">
+        <div class="text-right">
+            <button type="button" (click)="openModal(template)" class="mr-2 btn secondary-btn">Cancel</button>
+            <button type="submit" [disabled]="disabledButton" *ngIf="!isEditable" class="btn primary-btn">Submit</button>
+            <button type="submit" *ngIf="isEditable" class="btn primary-btn">Update</button>
+        </div>
+    </div>
+</form>
+<ng-template #template>
+    <div class="modal-header">
+        Discard Changes
+        <button type="submit" id="submit" class="close modal-close-button" (click)="decline()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure you want to discard the given response?</p>
+        The saved data will be lost!
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn secondary-btn" (click)="decline()">No</button>
+        <button type="submit" class="btn primary-btn" (click)="cancelCall()">Yes</button>
+    </div>
+</ng-template>

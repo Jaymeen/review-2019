@@ -1,0 +1,13 @@
+<div class="form-group" [formGroup]="form">
+  <label class="question-highlight form-control-label" [attr.for]="field.question">
+      <label class="mr-2 number-highlight form-control-label">Q{{field.quesno}}.</label>
+      <span>{{field.question}}</span>
+      <strong class="text-danger">*</strong>
+  </label>
+  <label class="question-highlight form-control-label ml-5" [attr.for]="field.question">
+      <app-textbox class="d-inline-block align-middle" *ngIf="field.type === 'text'" [field]="field" [form]="form"></app-textbox>
+      <app-checkbox class="d-inline-block align-middle" *ngIf="field.type === 'checkbox'" [field]="field" [form]="form"></app-checkbox>
+      <app-rating class="d-inline-block align-middle" *ngIf="field.type === 'rating'" [field]="field" [form]="form"></app-rating>
+      <app-radio class="d-inline-block align-middle" *ngIf="field.type === 'radio'" [field]="field" [form]="form"></app-radio>
+  </label>
+</div>

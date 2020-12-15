@@ -1,0 +1,12 @@
+<div [formGroup]="form">
+  <fieldset class="form-check rating">
+    <ng-container *ngFor="let data of field.labels;let i =index">
+      <input [formControlName]="field.name" class="form-check-input" type="radio" [id]="field.name+i"
+        [name]="field.name" [value]="data" />
+      <label class="form-check-label full" [for]="field.name+i" title="{{data}}"></label>
+    </ng-container>
+  </fieldset>
+  <div class="row" *ngIf="controls.invalid && controls.touched">
+    <div *ngIf="controls.errors?.required" class="text-danger pl-3 mt-1"><small>rating is required</small></div>
+  </div>
+</div>

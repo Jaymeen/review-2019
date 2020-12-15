@@ -1,0 +1,36 @@
+<div class="menubar" [ngClass]="{'active': sidebarOpened}" id="wrapper">
+    <div class="profile-wrapper">
+        <div class="profile-overlay">
+            <div id="container">
+                <div id="name" *ngIf="image !== null"><img src="{{image}}" height="100" width="100"></div>
+                <div id="nameReplace" *ngIf="image === null || image == undefined">
+                    <h1>{{imageIcon}}</h1>
+                </div>
+            </div>
+            <h4 class="username">{{userData.full_name}}</h4>
+        </div>
+    </div>
+    <div *ngIf="show">
+        <ul class="nav-menu p-0">
+            <li [ngClass]="{'nav-active': selectedItem == 1}" (click)="navigateToAdminDashboard()"><a
+                    (click)="toggleactiveMenu(1)"><i class="pr-2 fa fa-home"></i>Home</a></li>
+            <li [ngClass]="{'nav-active': selectedItem == 2}" (click)="navigateToListSessions()"><a
+                    (click)="toggleactiveMenu(2)" routerLink="/list-session"><i class="pr-2 fa fa-list"
+                        aria-hidden="true"></i>List-Session</a></li>
+            <li [ngClass]="{'nav-active': selectedItem == 3}" (click)="navigateToTemplate()"><a
+                    (click)="toggleactiveMenu(3)" routerLink="/template"><i class="pr-2 fa fa-table"></i>Template</a>
+            </li>
+            <li [ngClass]="{'nav-active': selectedItem == 4}" (click)="navigateToGiveReview()"><a
+                    (click)="toggleactiveMenu(4)"><i class="pr-2 fa fa-pencil-square-o"></i>Review</a></li>
+        </ul>
+    </div>
+    <div *ngIf="!show">
+        <ul class="nav-menu p-0">
+            <li [ngClass]="{'nav-active': selectedItem == 1}" (click)="navigateToUserDashboard()"><a
+                    (click)="toggleactiveMenu(1)"><i class="pr-2 fa fa-home"></i>Home</a>
+            </li>
+            <li [ngClass]="{'nav-active': selectedItem == 2}" (click)="navigateToReviewAnalysis()"><a
+                    (click)="toggleactiveMenu(2)"><i class="pr-2 fa fa-bar-chart"></i>Review Analysis</a></li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-toast [style]="{marginTop: '80px'}" position="top-left" key="tl"></p-toast>
+
+<p-toast [style]="{marginTop: '80px'}" position="top-center" key="tc"></p-toast>
+
+<p-toast [style]="{marginTop: '80px'}" styleClass="custom-toast" key="custom" position="bottom-center">
+</p-toast>
+<div *ngIf="!showBars">
+    <router-outlet (activate)="changeOfRoutes()"></router-outlet>
+</div>
+<div *ngIf="showBars">
+    <app-header-base [show]="showBars"></app-header-base>
+    <app-side-nav-bar [sidebar]='showBars'></app-side-nav-bar>
+    <div [ngClass]="{'active': sidebarOpened}" id="wrapper" class="routingComponents">
+        <router-outlet (activate)="changeOfRoutes()"></router-outlet>
+    </div>
+</div>
+<ngx-spinner bdColor="rgba(211,211,211,0.5)" size="default" color="#832e5b" type="ball-clip-rotate" fullScreen="true">
+    <p class="ml-2 spinner">Loading... </p>
+</ngx-spinner>

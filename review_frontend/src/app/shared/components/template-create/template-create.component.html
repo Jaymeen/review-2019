@@ -1,0 +1,184 @@
+<div class="container-fluid container-fluid-cst">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <h1 *ngIf="!updateFlag" class="page-header--text">Template Create</h1>
+                <h1 *ngIf="updateFlag" class="page-header--text">Template Update</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <div class="form-components card">
+                <h5 class="sub-header">Select Question to use</h5>
+                <p class="info-text">Drag and drop the items from list to drop zone to build and awesome form for
+                    review.</p>
+                <ul class="form-components-list">
+                    <li [attr.data-index]="0" pDraggable="form-components" (onDragStart)="dragStart($event,text)"
+                        (onDragEnd)="dragEnd($event)" (click)="renderTextComponent()">
+                        <i class="icon fa fa-keyboard-o"></i> Simple Text Input
+                    </li>
+                    <li [attr.data-index]="0" pDraggable="form-components" (onDragStart)="dragStart($event,radio)"
+                        (onDragEnd)="dragEnd($event)" (click)="renderRadioComponent()">
+                        <i class="icon fa fa-list"></i> Radio Input
+                    </li>
+                    <li [attr.data-index]="0" pDraggable="form-components" (onDragStart)="dragStart($event,checkbox)"
+                        (onDragEnd)="dragEnd($event)" (click)="renderCheckboxComponent()">
+                        <i class="icon fa fa-check"></i> Checkbox Input
+                    </li>
+                    <li [attr.data-index]="0" pDraggable="form-components" (onDragStart)="dragStart($event,rating)"
+                        (onDragEnd)="dragEnd($event)" (click)="renderRatingComponent()">
+                        <i class="icon fa fa-star"></i> Star Rating
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div  class="col-9 record max-height">
+            <form [formGroup]="componentList" (submit)="onSubmit()">
+                <div class="card p-4" [ngClass]="{'ui-highlight-car':draggedComponent}" (onDrop)="drop($event)">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="control-label required">Name</label>
+                                <input #nameElement pInputText formControlName="templateName" placeholder="Template Name"
+                                    (blur)="trimValue($event ,'templateName')" type="text" class="form-control" />
+                                <div *ngIf="!!componentList.controls.templateName.invalid && (!!componentList.controls.templateName.dirty || !!componentList.controls.templateName.touched)"
+                                    class="text-danger message-block">
+                                    <div *ngIf="!!componentList.controls.templateName.errors.required"
+                                        class="error-message">
+                                        <small #error>
+                                            Name is required.
+                                        </small>
+                                    </div>
+                                    <div  *ngIf="!!componentList.controls.templateName.errors?.nameExists"
+                                        class="error-message">
+                                        <small #error>
+                                            Name must be unique.
+                                        </small>
+                                    </div>
+                                    <div *ngIf="!!componentList.controls.templateName.errors.maxlength"
+                                        class="error-message">
+                                        <small #error>
+                                            Name must be of {{this.maxLengthForName}} characters max.
+                                        </small>
+                                    </div>
+                                    <div *ngIf="!!componentList.controls.templateName.errors.dataAbsents"
+                                        class="error-message">
+                                        <small #error>
+                                            Invalid Name
+                                        </small>
+                                    </div>
+                                    <div *ngIf="!!componentList.controls.templateName.errors.pattern"
+                                        class="error-message">
+                                        <small #error>
+                                            Special characters are not allowed.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="control-label required">Description</label>
+                                <textarea #descriptionElement class="form-control" (blur)="trimValue($event ,'templateDescription')"
+                                    rows="1" pInputTextarea cols="50" placeholder="Description about the template"
+                                    formControlName="templateDescription">
+                                </textarea>
+                                <div *ngIf="!!componentList.controls.templateDescription.invalid && (!!componentList.controls.templateDescription.dirty || !!componentList.controls.templateDescription.touched)"
+                                    class="text-danger message-block">
+                                    <div *ngIf="!!componentList.controls.templateDescription.errors.required"
+                                        class="error-message">
+                                        <small #errorDescriptionElement>
+                                            Template Description is required.
+                                        </small>
+                                    </div>
+                                    <div *ngIf="!!componentList.controls.templateDescription.errors.dataAbsents"
+                                        class="error-message">
+                                        <small #errorDescriptionElement>
+                                            Invalid Description.
+                                        </small>
+                                    </div>
+                                    <div *ngIf="!!componentList.controls.templateDescription.errors.maxlength"
+                                        class="error-message">
+                                        <small #errorDescriptionElement>
+                                            Description must be of {{this.maxLengthDescription}} characters max.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-4 mt-4" >
+                    <div class="drop-area" pDroppable="form-components"
+                        [ngClass]="{'ui-highlight-car':draggedComponent,'remove-border' : componentArray.length!=0}"
+                        (onDrop)="drop($event)">
+                        <h5 class="sub-header" *ngIf="componentArray.length===0">Drop Question Here</h5>
+                        <div formArrayName="componentArray"
+                            *ngFor="let component of componentArray.controls; let i=index">
+                            <div *ngIf="component.get('type').value=='radio'" class="border-bottom">
+                                <app-get-radio #radioComponent [change]="change" [previewFlag]="previewFlag"
+                                    [data]="component.value.data" (display)="appendRadioJson($event,i)"
+                                    (remove)="removeComponent(i)" (stop)="stop($event)">
+                                </app-get-radio>
+                            </div>
+                            <div *ngIf="component.get('type').value=='text'" class="border-bottom">
+                                <app-get-text #textComponent [change]="change" [previewFlag]="previewFlag"
+                                    [data]="component.value.data" (display)="appendTextJson($event,i)"
+                                    (remove)="removeComponent(i)" (stop)="stop($event)">
+                                </app-get-text>
+                            </div>
+                            <div *ngIf="component.get('type').value=='checkbox'" class="border-bottom">
+                                <app-get-checkbox #checkboxComponent [change]="change" [previewFlag]="previewFlag"
+                                    [data]="component.value.data" (display)="appendCheckboxJson($event,i)"
+                                    (remove)="removeComponent(i)" (stop)="stop($event)">
+                                </app-get-checkbox>
+                            </div>
+                            <div *ngIf="component.get('type').value=='rating'" class="border-bottom">
+                                <app-get-rating #ratingComponent [change]="change" [previewFlag]="previewFlag"
+                                    [data]="component.value.data" (display)="appendRatingJson($event,i)"
+                                    (remove)="removeComponent(i)" (stop)="stop($event)">
+                                </app-get-rating>
+                            </div>
+                        </div>
+                        <div class="drop-area" *ngIf="componentArray.length!=0">
+                            <h5 class="sub-header">Drop More Question Here</h5>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="card p-4 mt-4">
+                <div class="row">
+                    <div class="col-6">
+                        <button type="button" (click)="onPreview(2)"
+                            class="mr-2 btn primary-btn preview">Preview</button>
+                        <button type="button" (click)="onPreview(1)" class="btn primary-btn preview"
+                            [disabled]="!draftTemplate">Save as Draft</button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <button type="button" class="mr-2 btn secondary-btn"
+                            (click)="onCancel(template)">Cancel</button>
+                        <button *ngIf="action || !updateFlag" type="button" (click)="onSubmit()" [disabled]="submitted"
+                            class="btn primary-btn">Submit</button>
+                        <button *ngIf="!action && updateFlag" type="button" (click)="onSubmit()" [disabled]="submitted"
+                            class="btn primary-btn">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #template>
+    <div class="modal-header">
+        Discard changes
+        <button type="submit" id="submit" class="close modal-close-button" (click)="decline()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure you want to discard the template?</p>
+        The saved data will be lost!
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn secondary-btn" (click)="decline()">No</button>
+        <button type="submit" class="btn primary-btn" (click)="onModalCancel()">Yes</button>
+    </div>
+</ng-template>

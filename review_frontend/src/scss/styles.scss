@@ -1,0 +1,463 @@
+@import "./colors.scss";
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900");
+
+*{
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  padding: 0px;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  color: $grey;
+  line-height: 1.42857143;
+  background-color: $page-background;
+}
+
+ul {
+  padding-left: 0;
+}
+
+body {
+  .ui-inputwrapper-filled {
+    outline: none;
+  }
+
+  .ui-dropdown-panel {
+    .ui-dropdown-filter-container {
+      .ui-dropdown-filter-icon {
+        color: $primary;
+      }
+    }
+  }
+
+  .ui-dropdown {
+    outline: none;
+    &:not(.ui-state-disabled) {
+      &.ui-state-focus {
+        border-color: $primary;
+      }
+    }
+    .ui-dropdown-trigger {
+      outline: none;
+    }
+  }
+  .ui-inputtext {
+    &:enabled {
+      &:focus {
+        &:not(.ui-state-error) {
+          border-color: $primary;
+        }
+      }
+    }
+  }
+
+  .ui-multiselect {
+    &:not(.ui-state-disabled){
+      &.ui-state-focus {
+        border-color: $black;
+      }
+    }
+  }
+
+  .ui-multiselect-panel {
+    .ui-multiselect-header {
+      .ui-multiselect-filter-container {
+        .ui-multiselect-filter-icon {
+          color: $primary;
+        }
+      }
+    }
+    .ui-multiselect-items {
+      .ui-multiselect-item {
+        &:not(.ui-state-highlight) {
+          &:not(.ui-state-disabled) {
+            outline: none;
+          }
+        }
+
+        &.ui-state-highlight {
+          color: $white;
+          background-color: $primary;
+          outline: none;
+        }
+      }
+    }
+  }
+
+  .ui-chkbox {
+    .ui-chkbox-box {
+      &.ui-state-active {
+        color: $black;
+        background-color: $white;
+        border: none;
+        &:not(.ui-state-disabled):hover {
+          border: none;
+          color: $black;
+          background-color: $white;
+        }
+      }
+    }
+  }
+  
+  .ui-paginator {
+    border: 0px solid $secondary-light !important;
+    .ui-paginator-pages {
+      .ui-paginator-page {
+        font-size: 12px;
+        position: static;
+        float: none;
+        width: 14px;
+        outline: none;
+        margin-right: 5px;
+        &.ui-state-active {
+          background-color: $primary-dark !important;
+          color: $white;
+        }
+      }
+    }
+    .ui-paginator-icon {
+      font-size: 15px;
+      font-family: "Roboto", sans-serif !important;
+    }
+    .ui-paginator-prev {
+      outline: none;
+      width: 70px;
+    }
+    .ui-paginator-next {
+      outline: none;
+      width: 40px;
+    }
+  }
+
+  .ui-table {
+    .ui-sortable-column {
+      &.ui-state-highlight {
+        color: $black !important;
+        background-color: $secondary-light;
+      }
+    }
+    .ui-table-caption {
+      border: 0 none !important;
+      font-weight: 700;
+    }
+    .ui-table-thead > tr > th {
+      padding: 0.571em 0.857em;
+      font-weight: 700;
+      color: $secondary-dark;
+      background-color: $secondary-light;
+      outline: 0;
+    }
+  }
+
+  .ui-tabview {
+    padding: 0;
+    margin-bottom: 30px;
+    .ui-tabview-panels {
+      border: 0px;
+      padding: 0;
+      padding-top: 20px;
+      margin: 0;
+    }
+    &.ui-tabview-top {
+      .ui-tabview-nav {
+        li {
+          margin: 0;
+          box-shadow: none !important;
+          outline: none !important;
+          border-radius: 0;
+          border: 0 !important;
+          &:first-child {
+            border-top-left-radius: 4px;
+          }
+          &:last-child {
+            border-top-right-radius: 4px;
+          }
+          &.ui-state-active {
+            background: $white;
+            border-bottom: 2px solid $primary !important;
+            a {
+              color: $grey !important;
+            }
+            &:hover,
+            &:focus {
+              background: $white;
+              border-bottom: 2px solid $primary !important;
+              a {
+                color: $grey !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .ui-dropdown-panel {
+    .ui-dropdown-items {
+      .ui-dropdown-item {
+        &.ui-state-highlight {
+          color: $white;
+          background-color: $primary;
+        }
+      }
+    }
+  }
+
+  .ui-table-override {
+    tr {
+      th,
+      td {
+        border-bottom: 1px solid $white !important;
+        vertical-align: middle !important;
+        padding: 14px !important;
+      }
+    }
+    .ui-table-thead {
+      > tr {
+        background: $white;
+        > th {
+          border-left: 0px !important;
+          border-right: 0px !important;
+          border-top: 0 !important;
+          background: $secondary-light !important;
+        }
+      }
+    }
+    .ui-table-tbody {
+      > tr {
+        > td {
+          border-left: 0px !important;
+          border-right: 0px !important;
+          border-top: 0 !important;
+          background: $white !important;
+        }
+      }
+    }
+  }
+}
+// End: Override PrimeNG
+
+.container-fluid-cst {
+  padding: 35px;
+}
+
+.text-bold{
+  font-weight: 500 !important;
+}
+
+.page-header {
+  position: relative;
+  border-bottom: 1px solid $secondary-light;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  .page-header--text {
+    font-size: 21px;
+    color: $secondary-dark;
+    margin-bottom: 0;
+  }
+}
+
+.p-0 {
+  padding: 0px;
+}
+
+.btn {
+  color: $white;
+  border: 0px;
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 20px;
+  transition: all 0.5s;
+  outline: none !important;
+  box-shadow: none !important;
+  &.primary-btn {
+    background: $primary;
+    &:hover,
+    &:focus {
+      background-color: $primary-dark;
+      color: $white;
+      &:disabled {
+        background-color: $primary-light;
+        cursor: not-allowed;
+      }
+    }
+  }
+  &.secondary-btn {
+    color: $grey;
+    background: $secondary;
+    &:hover,
+    &:focus {
+      color: $grey;
+      background: $secondary-light;
+    }
+    &:disabled {
+      background-color: $secondary-light;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.pi-step-backward {
+  &::before {
+    content: "«" !important;
+    display: inline-block;
+  }
+}
+
+.pi-step-forward {
+  &::before {
+    content: "»" !important;
+    display: inline-block;
+  }
+}
+
+.pi-caret-left {
+  &::before {
+    content: "Previous" !important;
+  }
+}
+
+.pi-caret-right {
+  &::before {
+    content: "Next" !important;
+  }
+}
+
+span {
+  &.ui-paginator-icon {
+    &.pi {
+      &.pi-caret-right,
+      &.pi-caret-left {
+        position: static;
+        display: inline;
+        z-index: auto;
+        float: none;
+      }
+    }
+  }
+}
+
+.search-filter {
+  height: 28px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  border-bottom: 1px solid $secondary-light;
+}
+
+.icon-bg-transparent {
+  background-color: transparent;
+  border-color: transparent;
+  margin: 2px 5px;
+}
+
+.badge {
+  color: $white;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  &.badge-danger {
+    background-color: $red;
+  }
+  &.badge-warning {
+    background-color: $warning;
+    color: $black;
+  }
+  &.badge-secondary {
+    background-color: $secondary-dark;
+  }
+}
+
+.pi-sort {
+  &:before {
+    content: "\e902";
+  }
+  &-up:before {
+    color: $black;
+    content: "\e903";
+  }
+  &-down:before {
+    color: $black;
+    content: "\e902";
+  }
+}
+
+.noRecords {
+  font-weight: 600;
+  font-size: 20px;
+  color: $red;
+}
+
+.header-label {
+  font-weight: 700;
+  color: $grey;
+}
+
+.text-primary {
+  color: $primary !important;
+}
+
+.text-grey {
+  color: $grey !important;
+}
+
+.modal-header {
+  color: $white;
+  font-size: 15px;
+  background-color: $primary;
+  border-radius: 3px;
+}
+
+.modal-close-button {
+  color: $white;
+  &:focus {
+    outline: 0;
+  }
+}
+
+.card {
+  margin: 0 auto;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.message-block .error-message {
+  display: none;
+}
+
+.message-block .error-message:first-child {
+  display: block;
+}
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border: 1px solid #a80000;
+}
+
+a {
+  &:hover {
+    cursor: pointer;
+  }
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.question {
+  color: $secondary-dark;
+  font-size: 15px;
+}
+
+.overflow-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

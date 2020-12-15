@@ -1,0 +1,110 @@
+<div class="container-fluid container-fluid-cst">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <h1 class="page-header--text">Admin Dashboard</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <p-tabView (onChange)="handleChange($event)">
+                <p-tabPanel header="Current Reviews" [selected]="true"></p-tabPanel>
+                <p-tabPanel header="Past Reviews"></p-tabPanel>
+                <div class="row">
+                    <div class="col-12">
+                        <form [formGroup]="listMappingsForm" class="px-3"
+                            *ngIf="(SessionStatusTabIndex===1&&firstTimeTotalRecords1 !== 0)||SessionStatusTabIndex===2&&firstTimeTotalRecords2 !== 0">
+                            <div class="row mb-3">
+                                <div class="col-md-5 col-sm-12 smallBottom">
+                                    <label class="mr-2 header-label">Show</label>
+                                    <p-dropdown class="formcontrol" optionLabel="value" [options]="rows"
+                                        formControlName="recordsPerPage"></p-dropdown>
+                                    <label class="ml-2 header-label">entries out of {{totalRecords}}</label>
+                                </div>
+                                <div class="col-md-3 col-sm-12 smallBottom">
+                                    <label class="mr-2 header-label">Status</label>
+                                    <p-dropdown class="formcontrol" [options]="statuses" optionLabel="value"
+                                        formControlName="selectedStatus"></p-dropdown>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <input name="search" class="search-filter pull-right" id="testdata"
+                                        formControlName="searchString" placeholder="Search"
+                                        title="Search by session, reviewee, reviewer name">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" *ngIf="totalRecords===0; else showData">
+                    <div class="col-12">
+                        <span class="px-3 noRecords">No Records Found !!!</span>
+                    </div>
+                </div>
+                <ng-template #showData>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="px-3">
+                                <p-table #table [lazy]="true" sortField="session" [responsive]="true" [columns]="cols"
+                                    [value]="mappings" tableStyleClass="table ui-table-override"
+                                    (onLazyLoad)="customSort($event)" [customSort]="true">
+                                    <ng-template pTemplate="header" let-columns>
+                                        <tr>
+                                            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                                {{col.header}}
+                                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                                            </th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData let-column="columns">
+                                        <tr class="tbody">
+                                            <td style="align-content: center;" *ngFor="let col of column">
+                                                <div *ngIf="col.field==='status';else namesField">
+                                                    <div [ngSwitch]="rowData.status">
+                                                        <div *ngSwitchCase="'Pending'"><span
+                                                                class="badge badge-pill badge-danger">Pending</span>
+                                                        </div>
+                                                        <div *ngSwitchCase="'Submitted'"><span
+                                                                class="badge badge-pill badge-warning">Submitted</span>
+                                                        </div>
+                                                        <div *ngSwitchCase="'Published'"><span
+                                                                class="badge badge-pill badge-success">Published</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ng-template #namesField>
+                                                    <div class="overflow-text">
+                                                        <span pTooltip={{rowData[col.field]}}
+                                                            tooltipStyleClass="custom-tooltip"
+                                                            tooltipPosition="bottom">{{rowData[col.field]}}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </td>
+                                            <td>
+                                                <a (click)="viewResponse($event,rowData)"
+                                                    *ngIf="rowData.status != 'Pending'" title="View Review"><i
+                                                        class="ml-3 fa fa-eye fa-lg text-primary"></i></a>
+                                                <a *ngIf="rowData.status == 'Pending'" class="disabled"
+                                                    title="Review is not submitted yet"><i
+                                                        class="ml-3 fa fa-eye fa-lg text-primary disabled"></i></a>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-tabView>
+        </div>
+        <div class="col-12 mt-4">
+            <div class="pagination justify-content-end">
+                <p-paginator #paginator class="ui-paginator-page.ui-state-active" [alwaysShow]="false" [(first)]="first"
+                    [rows]="rowPerPage" [totalRecords]="totalRecords" pageLinkSize="2"
+                    (onPageChange)="paginate($event)">
+                </p-paginator>
+            </div>
+        </div>
+    </div>
+</div>

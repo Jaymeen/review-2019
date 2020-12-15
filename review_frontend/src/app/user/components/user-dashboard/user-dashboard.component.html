@@ -1,0 +1,198 @@
+<div class="container-fluid container-fluid-cst">
+    <div class="row">
+        <div class="col-12">
+            <div *ngIf="role === 'ROLE_MEMBER'" class="page-header">
+                <h1 class="page-header--text">Dashboard</h1>
+            </div>
+            <div *ngIf="role !== 'ROLE_MEMBER'" class="page-header">
+                <h1 class="page-header--text">Review</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <p-tabView (onChange)="handleChange($event)">
+                <div class="row">
+                    <div class="col-12">
+                        <form [formGroup]="filterOptionsGroup" class="px-3"
+                            *ngIf="(userStatusTabIndex===1&&firstTimeTotalRecords1 !== 0) || userStatusTabIndex===2&&firstTimeTotalRecords2 !== 0">
+                            <div class="row mb-3">
+                                <div class="col-md-5 col-sm-12 text-left smallBottom">
+                                    <label class="mr-2 header-label">Show</label>
+                                    <p-dropdown class="formcontrol" optionLabel="value" [options]="rowsPerPageOptions"
+                                        formControlName="recordsPerPage"></p-dropdown>
+                                    <label class="ml-2 header-label">entries out of {{totalRecords}}</label>
+                                </div>
+                                <div class="col-md-3 col-sm-12 text-left smallBottom">
+                                    <label class="mr-2 header-label">Status</label>
+                                    <p-dropdown class="formcontrol" [options]="statusOptions" optionLabel="value"
+                                        formControlName="selectedStatus"></p-dropdown>
+                                </div>
+                                <div class="col-md-4 col-sm-12 smallBottom">
+                                    <input name="search" class="search-filter pull-right" id="testdata"
+                                        formControlName="searchString" placeholder="Search"
+                                        title="Search by session, reviewee, reviewer name">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <p-tabPanel header="Give Reviews" [selected]="true">
+                    <ng-template pTemplate="content">
+                        <div *ngIf="totalRecords===0; else showData">
+                            <span class="px-3 noRecords">No Records Found !!!</span>
+                        </div>
+                        <ng-template #showData>
+                            <div class="px-3">
+                                <p-table #table [lazy]="true" sortField="name" [responsive]="true" [columns]="columns"
+                                    [value]="tableData" tableStyleClass="table ui-table-override"
+                                    (onLazyLoad)="customSort($event)" [customSort]="true">
+                                    <ng-template pTemplate="header" let-column>
+                                        <tr>
+                                            <th *ngFor="let column of columns" [pSortableColumn]="column.field">
+                                                {{column.header}}
+                                                <p-sortIcon [field]="column.field"></p-sortIcon>
+                                            </th>
+                                            <th>
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData let-column="columns">
+                                        <tr class="tbody">
+                                            <td style="align-content: center" *ngFor="let column of columns">
+                                                <div *ngIf="column.field === 'deadline'; else statusFields">
+                                                    {{rowData[column.field] | date }}
+                                                </div>
+                                                <ng-template #statusFields>
+                                                    <div *ngIf="column.field==='status'; else namesField">
+                                                        <div [ngSwitch]="rowData[column.field]">
+                                                            <div *ngSwitchCase="'Pending'">
+                                                                <span
+                                                                    class="badge badge-pill badge-danger">Pending</span>
+                                                            </div>
+                                                            <div *ngSwitchCase="'Submitted'">
+                                                                <span
+                                                                    class="badge badge-pill badge-warning">Submitted</span>
+                                                            </div>
+                                                            <div *ngSwitchCase="'Published'">
+                                                                <span
+                                                                    class="badge badge-pill badge-success">Published</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #namesField>
+                                                    <div class="overflow-text">
+                                                        <span pTooltip={{rowData[column.field]}}
+                                                            tooltipStyleClass="custom-tooltip"
+                                                            tooltipPosition="bottom">{{rowData[column.field]}}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </td>
+                                            <td>
+                                                <a (click)="giveReview(rowData)"
+                                                    *ngIf="rowData.status == 'Pending' && rowData.isPrimary"
+                                                    title="Give Review"><i
+                                                        class="mr-3 fa fa-pencil-square-o fa-lg text-primary"></i></a>
+                                                <a *ngIf="rowData.status == 'Pending' && !rowData.isPrimary"
+                                                    class="disabled" title="Only primary reviewer can give review"><i
+                                                        class="mr-3 fa fa-pencil-square-o fa-lg text-primary"></i></a>
+                                                <a *ngIf="rowData.status == 'Submitted'" class="disabled"
+                                                    title="Review already submitted"><i
+                                                        class="mr-3 fa fa-pencil-square-o fa-lg text-primary"></i></a>
+                                                <a *ngIf="rowData.status == 'Published'" class="disabled"
+                                                    title="Review has been published"><i
+                                                        class="mr-3 fa fa-pencil-square-o fa-lg text-primary"></i></a>
+                                                <a *ngIf="rowData.status == 'Pending'" class="disabled"
+                                                    title="Review is pending"><i
+                                                        class="mr-3 fa fa-eye fa-lg text-primary"></i></a>
+                                                <a (click)="viewReview(rowData)"
+                                                    *ngIf="rowData.status == 'Submitted' || rowData.status == 'Published'"
+                                                    title="View Review"><i
+                                                        class="mr-3 fa fa-eye fa-lg text-primary"></i></a>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </ng-template>
+                    </ng-template>
+                </p-tabPanel>
+                <p-tabPanel header="My Reviews">
+                    <ng-template pTemplate>
+                        <div *ngIf="totalRecords===0; else showData">
+                            <span class="px-3 noRecords">No Records Found !!!</span>
+                        </div>
+                        <ng-template #showData>
+                            <div class="px-3">
+                                <p-table #table sortField="name" [lazy]="true" [responsive]="true"
+                                    [columns]="columnsOfMyReview" [value]="tableData1"
+                                    tableStyleClass="table ui-table-override" (onLazyLoad)="customSort($event)"
+                                    [customSort]="true">
+                                    <ng-template pTemplate="header" let-column>
+                                        <tr>
+                                            <th *ngFor="let column of columnsOfMyReview"
+                                                [pSortableColumn]="column.field">
+                                                {{column.header}}
+                                                <p-sortIcon [field]="column.field"></p-sortIcon>
+                                            </th>
+                                            <th>
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-rowData let-column="columnsOfMyReview">
+                                        <tr class="tbody">
+                                            <td style="align-content: center" *ngFor="let column of columnsOfMyReview">
+                                                <div>
+                                                    <div *ngIf="column.field==='status'; else namesField">
+                                                        <div [ngSwitch]="rowData[column.field]">
+                                                            <div *ngSwitchCase="'Pending'">
+                                                                <span
+                                                                    class="badge badge-pill badge-danger">Pending</span>
+                                                            </div>
+                                                            <div *ngSwitchCase="'Submitted'">
+                                                                <span
+                                                                    class="badge badge-pill badge-warning">Submitted</span>
+                                                            </div>
+                                                            <div *ngSwitchCase="'Published'">
+                                                                <span
+                                                                    class="badge badge-pill badge-success">Published</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ng-template #namesField>
+                                                    <div class="overflow-text">
+                                                        <span pTooltip={{rowData[column.field]}}
+                                                            tooltipStyleClass="custom-tooltip"
+                                                            tooltipPosition="bottom">{{rowData[column.field]}}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </td>
+                                            <td>
+                                                <a *ngIf="rowData.status == 'Pending' || rowData.status == 'Submitted'"
+                                                    class="disabled" title="Review is not published yet"><i
+                                                        class="mr-3 fa fa-eye fa-lg text-primary disabled"></i></a>
+                                                <a (click)="viewReview(rowData)" *ngIf="rowData.status == 'Published'"
+                                                    title="View Review"><i
+                                                        class="mr-3 fa fa-eye fa-lg text-primary"></i></a>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </ng-template>
+                    </ng-template>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+        <div class="col-12">
+            <div class="pagination justify-content-end">
+                <p-paginator #paginator class="ui-paginator-page.ui-state-active" [rows]="pageSize" [alwaysShow]="false"
+                    [totalRecords]="totalRecords" pageLinkSize="2" (onPageChange)="paginate($event)"></p-paginator>
+            </div>
+        </div>
+    </div>
+</div>

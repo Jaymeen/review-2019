@@ -1,0 +1,167 @@
+<div class="container-fluid container-fluid-cst">
+    <div class="row">
+        <div class="col-12">
+            <div *ngIf="!isUpdate">
+                <div class="page-header">
+                    <h1 class="page-header--text">Create Session</h1>
+                </div>
+            </div>
+            <div *ngIf="isUpdate">
+                <div class="page-header">
+                    <h1 class="page-header--text">Update Session</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card group">
+                <div class="card-body">
+                    <form [formGroup]="sessionForm" (ngSubmit)="onSubmit(isUpdate)">
+                        <div class="row mb-4">
+                            <div class="col-md-2 col-sm-12">
+                                <label class="required">Name</label>
+                            </div>
+                            <div class="col-md-4 col-sm-12 smallBottom">
+                                <input type="text" placeholder="Enter session name" pInputText formControlName="name"
+                                    required editable="editable" (blur)="trimValue($event, 'name')"
+                                    (keydown.enter)="$event.preventDefault()">
+                                <div *ngIf="!!formControls.name.invalid && (!!formControls.name.dirty || !!formControls.name.touched)"
+                                    class="text-danger message-block">
+                                    <div *ngIf="!!formControls.name.errors.required" class="error-message"><small>Name
+                                            is
+                                            required.</small></div>
+                                    <div *ngIf="!!formControls.name.errors?.nameExists" class="error-message">
+                                        <small>
+                                            Name must be unique.
+                                        </small>
+                                    </div>
+                                    <div *ngIf="!!formControls.name.errors.maxlength" class="error-message">
+                                        <small>
+                                            Name must be of {{this.maxLengthForName}} characters max.
+                                        </small>
+                                    </div>
+                                    <div *ngIf="!!formControls.name.errors.dataAbsents" class="error-message"><small>
+                                            Invalid Name
+                                        </small></div>
+                                    <div *ngIf="!!formControls.name.errors.pattern" class="error-message"><small>+,&,#,\
+                                            are
+                                            not allowed.</small></div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <label class="required">Review Cycle</label>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <p-dropdown class="formcontrol" [options]="sessionForm.get('arr').value"
+                                    formControlName="cycle" placeholder="Review cycle" optionLabel="value"
+                                    [showClear]="true" styleClass="dropdown" (keydown.enter)="$event.preventDefault()">
+                                </p-dropdown>
+                                <div *ngIf="!!formControls.cycle.invalid && (!!formControls.cycle.dirty || !!formControls.cycle.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="!!formControls.cycle.errors.required"><small>Review Cycle is
+                                            required.</small></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-2 col-sm-12">
+                                <label class="required">Start Date</label>
+                            </div>
+                            <div class="col-md-4 col-sm-12 smallBottom">
+                                <p-calendar formControlName="start_date" placeholder="Enter start date"
+                                    showButtonBar="true" editable="true" dateFormat="yy-mm-dd" [minDate]="minDate"
+                                    (keydown.enter)="$event.preventDefault()"></p-calendar>
+                                <div *ngIf="!!formControls.start_date.invalid && (!!formControls.start_date.dirty || !!formControls.start_date.touched)"
+                                    class="text-danger">
+                                    <div
+                                        *ngIf="!!formControls.start_date.errors.required || sessionForm.get('start_date').hasError('required')">
+                                        <small>Start
+                                            date is required.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <label class="required">Duration</label>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <input type="number" formControlName="duration" min="1" pInputText
+                                    (keydown.enter)="$event.preventDefault()" (keypress)="restrictInput($event)"
+                                    required placeholder="Enter duration">
+                                <div class="message-block">
+                                    <div *ngIf="!!formControls.duration.invalid && (!!formControls.duration.dirty || !!formControls.duration.touched)"
+                                        class="text-danger message-block">
+                                        <div *ngIf="!!formControls.duration.errors.required" class="error-message">
+                                            <small>Duration is required.</small>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="!!this.sessionForm.errors?.range" class="text-danger error-message">
+                                        <small>{{this.sessionForm.errors?.range}}.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-2 col-sm-12">
+                                <label class="required ">Description</label>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <textarea pInputTextarea formControlName="description" placeholder="Enter description"
+                                    (blur)="trimValue($event, 'description')" required></textarea>
+                                <div *ngIf="!!formControls.description.invalid && (!!formControls.description.dirty || !!formControls.description.touched) "
+                                    class="text-danger message-block">
+                                    <div *ngIf="!!formControls.description.errors.required " class="error-message">
+                                        <small>Description is required.</small>
+                                    </div>
+                                    <div *ngIf="!!formControls.description.errors.dataAbsents" class="error-message">
+                                        <small>
+                                            Invalid Description
+                                        </small></div>
+                                    <div *ngIf="!!formControls.description.errors.maxlength" class="error-message">
+                                        <small>
+                                            Description must be of {{this.maxLengthDescription}} characters max.
+                                        </small>
+                                    </div>
+                                    <div *ngIf="!!formControls.description.errors.pattern" class="error-message">
+                                        <small>Description
+                                            is invalid.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12 text-right">
+                                <button type="button" class="mr-2 btn secondary-btn"
+                                    (click)="onCancel(template)">Cancel</button>
+                                <button *ngIf="isUpdate" [disabled]="disable_flag " type="submit"
+                                    class="btn primary-btn ">Update</button>
+                                <button *ngIf="!isUpdate" [disabled]="disable_flag " type="submit "
+                                    class="btn primary-btn ">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for confirmation-->
+<ng-template #template>
+    <div class="modal-header">
+        Discard Changes
+        <button type="submit" id="submit" class="close modal-close-button" (click)="decline()">&times;</button>
+    </div>
+    <div class="modal-body" *ngIf="!isUpdate">
+        <p>Are you sure you want to discard the session?</p>
+        The saved data will be lost!
+    </div>
+    <div class="modal-body" *ngIf="isUpdate">
+        <p>Are you sure you want to discard the changes?</p>
+        The saved data will be lost!
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn secondary-btn" (click)="decline()">No</button>
+        <button type="reset" class="btn primary-btn" (click)="navigateToListSessions()">Yes</button>
+    </div>
+</ng-template>

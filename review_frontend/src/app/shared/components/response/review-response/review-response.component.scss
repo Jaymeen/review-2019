@@ -1,0 +1,34 @@
+@import "../../../../../scss/colors.scss";
+.response-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li{
+    display: block;
+    margin-bottom: 20px;
+
+    .item{
+      display: flex;
+      margin-bottom: 8px;
+      &:first-child{
+        .item-number, .item-text{
+          font-weight: 400;
+          color: #8e8e8e;
+          font-size: 14px;
+        }
+      }
+
+      .item-number{
+        font-weight: 500;
+        margin-right: 8px;
+        font-size: 16px;
+      }
+      .item-text{
+        font-weight: 500;
+        font-size: 16px;
+        white-space: pre-wrap;
+      }
+
+    }
+  }
+}

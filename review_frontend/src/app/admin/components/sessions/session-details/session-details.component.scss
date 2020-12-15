@@ -1,0 +1,33 @@
+@import "../../../../../scss/colors.scss";
+
+.noDisplay {
+  display: none;
+}
+
+.group {
+  .section-header {
+    font-weight: bold;
+    font-size: 25px;
+    color: $secondary-dark;
+    padding: 1%;
+  }
+  label {
+    float: right;
+    font-weight: bold;
+    font-size: 15px;
+    color: $secondary-dark;
+  }
+  input {
+    border-radius: 5px;
+    border-width: 1px;
+  }
+}
+
+.dropdown {
+  width: 190px !important;
+}
+
+.required::after {
+  content: "*";
+  color: $red;
+}

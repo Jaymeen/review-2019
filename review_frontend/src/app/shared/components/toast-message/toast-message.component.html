@@ -1,0 +1,19 @@
+<h3 class="first">Severities</h3>
+<button type="button" pButton (click)="toast.showSuccess('success', 'Confirmation', 'Successfully added')"
+    label="Success" class="ui-button-success"></button>
+<button type="button" pButton (click)="toast.showInfo()" label="Info" class="ui-button-info"></button>
+<button type="button" pButton (click)="toast.showWarn()" label="Warn" class="ui-button-warning"></button>
+<button type="button" pButton (click)="toast.showError()" label="Error" class="ui-button-danger"></button>
+
+<h3>Multiple</h3>
+<button type="button" pButton (click)="toast.showMultiple()" label="Multiple"></button>
+
+<h3>Clear</h3>
+<button type="button" pButton (click)="toast.clear()" icon="pi pi-times" label="Remove All"></button>
+
+<h3>Positions</h3>
+<button type="button" pButton (click)="toast.showTopLeft()" label="Top Left" class="ui-button-success"></button>
+<button type="button" pButton (click)="toast.showTopCenter()" label="Top Center" class="ui-button-info"></button>
+
+<h3>Template</h3>
+<button type="button" pButton (click)="toast.showConfirm()" label="Confirm" class="ui-button-warning"></button>

@@ -1,0 +1,83 @@
+@import "../../../../../scss/colors.scss";
+
+.table-header {
+  tr {
+    th {
+      border-left: 0px !important;
+      border-right: 0px !important;
+      border-top: 0 !important;
+      background: #efefef !important;
+    }
+  }
+}
+
+.table > tbody > tr > td {
+  border-bottom: 1px solid $white;
+  vertical-align: middle;
+}
+
+.mapping-btn {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  line-height: 25px;
+  text-align: center;
+  display: block;
+  padding: 0;
+}
+
+.mapping-btn:hover {
+  color: $white;
+}
+
+.colTemplate {
+  width: 190px;
+}
+
+.colReviewer {
+  width: 190px;
+}
+
+.colReviewee {
+  width: 220px;
+}
+
+.colAction {
+  width: 40px;
+}
+
+.rmPadding {
+  padding-bottom: 10px;
+}
+
+.ui-multiselect .ui-multiselect-label {
+  white-space: nowrap;
+}
+
+.cst-dropdown-grid {
+  .cst-dropdown-title {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cst-dropdown-option {
+    white-space: normal;
+    margin: 0;
+    height: 55px;
+  }
+  .mapping-btn {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .cst-dropdown-grid {
+    .cst-dropdown-option {
+      white-space: nowrap;
+      height: 60px;
+    }
+  }
+}

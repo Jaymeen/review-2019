@@ -1,0 +1,26 @@
+<div class="container-fluid container-fluid-cst">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <h1 class="page-header--text">Preview Template</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-right">
+            <button class="mb-4 btn primary-btn" title="Close this tab" (click)="closetab()">Close Preview</button>
+        </div>
+        <div class="col-12">
+            <div *ngIf="canCall" class="card">
+                <div class="card-body">
+                    <div class="preview-header text-left"><strong>Review Session: </strong>Session Name</div>
+                    <div class="preview-header text-left"><strong>Deadline: </strong>DD-MM-YYYY</div>
+                    <hr>
+                    <dynamic-form-builder (onSubmit)="onSubmit($event)" [mappingId]="0" [templateId]="templateId"
+                        class="preview-header" [readOnly]="true">
+                    </dynamic-form-builder>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

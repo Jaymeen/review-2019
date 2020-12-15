@@ -1,0 +1,20 @@
+@import "../../../../scss/colors.scss";
+$_url: 'src/assets/images/bg.jpg';
+
+.page-wrap {
+  min-height: 100vh;
+}
+
+.error-text {
+  color: $secondary-dark;
+  font-weight: 500;
+  font-size: 25px;
+}
+
+.bg-image {
+  background-image: url($_url);
+}
+
+.error-code {
+  font-weight: 400;
+}

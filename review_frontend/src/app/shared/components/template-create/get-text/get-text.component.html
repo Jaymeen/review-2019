@@ -1,0 +1,35 @@
+<div>
+  <form [formGroup]="textFieldForm" (submit)="onSubmit()">
+    <div class="row">
+      <div class="col-8">
+        <label class="question required">Add a question to your questionnaire:</label>
+        <i class="ml-2 fa fa-info-circle text-grey" pTooltip="Single Textbox Question" tooltipPosition="right"></i>
+      </div>
+      <div class="col-4 text-right">
+        <button type="button" title="Delete Question" class="icon-bg-transparent " (click)="onRemove()">
+          <i class="fa fa-trash fa-lg text-primary"></i>
+        </button>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="text" #questionElement class="form-control" (blur)="trimValue($event ,'question')" id="tx"
+        placeholder="Type the question" formControlName="question">
+      <div
+        *ngIf="!!textFieldForm.controls.question.invalid && (!!textFieldForm.controls.question.dirty || !!textFieldForm.controls.question.touched)"
+        class="text-danger message-block">
+        <div *ngIf="!!textFieldForm.controls.question.errors.required" class="error-message">
+          <small #error>Question is required.</small>
+        </div>
+        <div *ngIf="!!textFieldForm.controls.question.errors.pattern" class="error-message">
+          <small #error> Special character `,^,| are not allowed </small>
+        </div>
+        <div *ngIf="!!textFieldForm.controls.question.errors.maxlength" class="error-message">
+          <small #error> Question must be of {{this.maxLength}} characters max.</small>
+        </div>
+        <div *ngIf="!!textFieldForm.controls.question.errors.dataAbsents" class="error-message">
+          <small #error>Invalid Question</small>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

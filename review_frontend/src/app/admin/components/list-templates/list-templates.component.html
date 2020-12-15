@@ -1,0 +1,126 @@
+<div class="container-fluid container-fluid-cst">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <h1 class="page-header--text">Templates</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-right">
+            <button title="Add new template" (click)="newtemplate()" class="mb-4 btn primary-btn">
+                New Template</button>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="listTemplateForm" *ngIf="firstTimeTotalRecords !== 0">
+                        <div class="row mb-3">
+                            <div class="col-md-5 col-sm-12 smallBottom">
+                                <label class="mr-2 header-label">Show</label>
+                                <p-dropdown class="formcontrol" optionLabel="value" [options]="rows"
+                                    formControlName="recordsPerPage"></p-dropdown>
+                                <label class="ml-2 header-label">entries out of {{totalRecords}} </label>
+                            </div>
+                            <div class="col-md-4 col-sm-12 smallBottom">
+                                <label class="mr-2 header-label">Status</label>
+                                <p-dropdown class="formcontrol" [options]="status" optionLabel="value"
+                                    formControlName="selectedStatus"></p-dropdown>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <input name="search" type='text' class="search-filter pull-right"
+                                    formControlName="searchString" placeholder="Search on Name">
+                            </div>
+                        </div>
+                    </form>
+                    <div *ngIf="totalRecords == 0;else hasresults">
+                        <h5 class="noRecords">
+                            No records found !!!
+                        </h5>
+                    </div>
+                    <ng-template #hasresults>
+                        <p-table #dt sortField="creation_date" [sortOrder]="sortorder" [value]="results"
+                            [columns]="cols" [lazy]="true" (onLazyLoad)="customSort($event)" [responsive]="true"
+                            tableStyleClass="table ui-table-override">
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                        {{col.header}}
+                                        <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                                            ariaLabelDesc="Activate to sort in descending order"
+                                            ariaLabelAsc="Activate to sort in ascending order">
+                                        </p-sortIcon>
+                                    </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-each let-columns="columns" let-rowIndex="rowIndex">
+                                <tr>
+                                    <td class="overflow-text">
+                                        <span pTooltip={{each.template_name}} tooltipPosition="bottom">
+                                            {{each.template_name}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{each.creation_date | date}}
+                                    </td>
+                                    <td class="overflow-text">
+                                        <span pTooltip={{each.template_description}} tooltipPosition="bottom">
+                                            {{each.template_description}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a title="View Template" (click)="setPreviewId(each.template_id)">
+                                            <i class="mr-3 fa fa-eye fa-lg text-primary"></i>
+                                        </a>
+                                        <a (click)="updateTemplate(each)" *ngIf="each.template_status != 'used'"
+                                            title="Edit Template"><i class="mr-3 fa fa-edit fa-lg text-primary"></i></a>
+                                        <a  *ngIf="each.template_status == 'used'"
+                                            class="disabled" title="Template in use, can not edit it">
+                                            <i class="mr-3 fa fa-edit fa-lg text-primary disabled"></i></a>
+
+                                        <a (click)="setDeleteId(each,template)" *ngIf="each.template_status != 'used'"
+                                            title="Delete Template"><i class="mr-3 fa fa-trash-o fa-lg text-primary"></i>
+                                        </a>
+                                        <a  *ngIf="each.template_status == 'used'"
+                                            class="disabled" title="Template in use, can not delete it">
+                                            <i class="mr-3 fa fa-trash-o fa-lg text-primary disabled"></i>
+                                        </a>
+                                        <a title="Clone Template" (click)="cloneTemplate(each.template_id)">
+                                            <i class="mr-3 fa fa-clone fa-lg text-primary"></i>
+                                        </a>
+                                        <ng-template #template>
+                                            <!-- Modal content-->
+                                            <div class="modal-header">
+                                                Delete Template
+                                                <button type="submit" class="close modal-close-button"
+                                                    (click)="decline()">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Are you sure you want to delete the
+                                                    {{ deleteTemplateName }} template ?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn secondary-btn"
+                                                    (click)="decline()">No</button>
+                                                <button type="submit" class="btn primary-btn" 
+                                                    (click)="deleteRequest(deleteId)">Yes</button>
+                                            </div>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="pagination justify-content-end">
+                <p-paginator #paginator [alwaysShow]="false" class="ui-paginator-page.ui-state-active"
+                    [rows]="getRowValue" [totalRecords]="totalRecords" pageLinkSize="2"
+                    (onPageChange)="paginate($event)"></p-paginator>
+            </div>
+        </div>
+    </div>
+</div>

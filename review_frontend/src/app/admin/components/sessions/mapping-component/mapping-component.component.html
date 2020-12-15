@@ -1,0 +1,148 @@
+<div class="container-fluid container-fluid-cst">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <h1 class="page-header--text">Candidates Selection</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-right">
+            <button class="mb-4 btn primary-btn" type="button" (click)="createTemplate()">
+                Add Template
+            </button>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="mappingForm">
+                        <div class="row cst-dropdown-grid align-items-center">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2">
+                                <div class="cst-dropdown-title">Template</div>
+                                <div class="cst-dropdown-option">
+                                    <p-dropdown #valTemplate (click)="getTemplateNames(valTemplate)" [filter]="true"
+                                        [style]="{'width':'100%'}" [panelStyle]="{'width':'100%'}" [options]="templates"
+                                        optionLabel="label" formControlName="selectedTemplate"
+                                        placeholder="Select a Template" [showClear]="true">
+                                    </p-dropdown>
+                                    <div class="rmPadding text-danger" *ngIf="!valTemplate.selectedOption">
+                                        <div *ngIf="(!validData || mappingForm.get('selectedTemplate').touched) 
+                      && mappingForm.get('selectedTemplate').dirty">
+                                            Template selection is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">
+                                <div class="cst-dropdown-title">Primary Reviewer</div>
+                                <div class="cst-dropdown-option">
+                                    <p-dropdown #valReviewer (click)="getUserNames(valReviewer)" [filter]="true"
+                                        [style]="{'width':'100%'}" [panelStyle]="{'width':'100%'}" [options]="users"
+                                        formControlName="selectedPrimaryReviewer" placeholder="Select a Reviewer"
+                                        optionLabel="fullname" [showClear]="true" (onChange)="fillMultiSelects($event)">
+                                    </p-dropdown>
+                                    <div class="rmPadding text-danger" *ngIf="!valReviewer.selectedOption">
+                                        <div *ngIf="(!validData || mappingForm.get('selectedPrimaryReviewer').touched)
+                      && mappingForm.get('selectedPrimaryReviewer').dirty">
+                                            Reviewer selection is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">
+                                <div class="cst-dropdown-title">Secondary Reviewers</div>
+                                <div class="cst-dropdown-option">
+                                    <p-multiSelect #valSecondaryReviewers
+                                        (click)="filterReviewee(valSecondaryReviewers)"
+                                        defaultLabel="Select secondary reviewer(s)" [style]="{'width':'100%'}"
+                                        [panelStyle]="{'width':'100%'}" [options]="secondaryReviewers"
+                                        formControlName="selectedSecondaryReviewer" optionLabel="fullname"
+                                        (onChange)="updateMultiselect('reviewee')"
+                                        selectedItemsLabel="{0} reviewers selected">
+                                    </p-multiSelect>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3">
+                                <div class="cst-dropdown-title">Reviewee</div>
+                                <div class="cst-dropdown-option">
+                                    <p-multiSelect #valReviewee (click)="filterReviewee(valReviewee)"
+                                        defaultLabel="Select a Reviewee" [style]="{'width':'100%'}"
+                                        [panelStyle]="{'width':'100%'}" [options]="reviewees"
+                                        formControlName="selectedReviewee" optionLabel="fullname"
+                                        (onChange)="updateMultiselect('reviewer')"
+                                        selectedItemsLabel="{0} Reviewees selected">
+                                    </p-multiSelect>
+                                    <div class="rmPadding text-danger"
+                                        *ngIf="(!valReviewee.value || valReviewee.value.length==0)">
+                                        <div *ngIf="(!validData || mappingForm.get('selectedReviewee').touched)
+                      && mappingForm.get('selectedReviewee').dirty">
+                                            Reviewee selection is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-1">
+                                <button class="btn mapping-btn btn-success " (click)="addFieldValue()">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="mappingArray != ''">
+                            <div class="col-12">
+                                <hr>
+                                <div class="table-responsive-xl">
+                                    <table class="table">
+                                        <thead class="table-header">
+                                            <tr>
+                                                <th scope="col" class="colTemplate">Template</th>
+                                                <th scope="col" class="colReviewer">Primary Reviewer</th>
+                                                <th scope="col" class="colReviewee">Secondary Reviewers</th>
+                                                <th scope="col" class="colReviewee">Reviewee</th>
+                                                <th scope="col" class="colAction"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let data of mappingArray; let i = index">
+                                                <td class="colTemplate">
+                                                    {{data.template.template_name}}
+                                                </td>
+                                                <td class="colReviewer">
+                                                    {{data.primaryReviewer.reviewer_name}}
+                                                </td>
+                                                <td class="overflow-text colReviewee">
+                                                    <a pTooltip={{reviewerCSV(data.secondaryReviewers)}}
+                                                        tooltipPosition="left">
+                                                        {{reviewerCSV(data.secondaryReviewers)}}
+                                                    </a>
+                                                    <div *ngIf="reviewerCSV(data.secondaryReviewers).length==0;">
+                                                        &mdash;
+                                                    </div>
+                                                </td>
+                                                <td class="overflow-text colReviewee">
+                                                    <a pTooltip={{revieweeCSV(data.reviewees)}} tooltipPosition="left">
+                                                        {{revieweeCSV(data.reviewees)}}
+                                                    </a>
+                                                </td>
+                                                <td class="colAction">
+                                                    <button class="btn mapping-btn btn-danger"
+                                                        (click)="deleteFieldValue(i)">
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <hr>
+                    <div class="text-right">
+                        <button type="button" (click)="onCancel()" class="mr-2 btn secondary-btn">Cancel</button>
+                        <button type="button" [disabled]="disabledButton" (click)="onSubmit()" class="btn primary-btn">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

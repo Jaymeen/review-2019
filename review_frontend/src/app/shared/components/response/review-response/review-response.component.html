@@ -1,0 +1,28 @@
+<ul class="response-list" *ngIf="canRender">
+    <li *ngFor="let response of response; let i=index">
+        <div class="item">
+            <span class="item-number">Q{{i+1}}.</span>
+            <span class="item-text">{{response.question}}</span>
+        </div>
+        <div class="item">
+            <span class="item-number">A{{i+1}}.</span>
+            <span *ngIf="response.type !== 'rating'" class="item-text text-bold">{{response.answer}}</span>
+            <app-rating *ngIf="response.type === 'rating'" [field]="response" [form]="form"></app-rating>
+        </div>
+    </li>
+</ul>
+
+<!-- <ng-container>
+
+    <div class="">
+
+
+        <div *ngIf="response.type !== 'rating'">
+            <label></label>
+            <span class="answer"></span>
+        </div>
+        <div >
+            <label class="d-inline-flex">A{{i+1}}.</label>
+        </div>
+    </div>
+</ng-container> -->

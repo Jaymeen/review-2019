@@ -1,0 +1,148 @@
+@import "./../../../../scss/colors.scss";
+
+.read-notifications {
+  background-color: $read-background !important;
+}
+
+.notification-seperator {
+  border-bottom: 1px solid $secondary-light;
+  height: auto;
+  padding: 8px 20px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.hide-last-element-border:last-of-type {
+  border-bottom: none;
+}
+
+.card-body {
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+}
+
+.notification {
+  display: block;
+  line-height: 1.2;
+  white-space: normal;
+  color: $grey;
+
+  .notification-header {
+    font-size: 16px;
+  }
+
+  .notification-message {
+    margin-top: 4px;
+    font-size: 14px;
+    padding-top: 8px;
+  }
+}
+
+.container-radio input:checked ~ .labels:after {
+  font-weight: bold;
+}
+
+.container-radio {
+  float: right;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: $black;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding-top: 4px;
+}
+
+.container-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.labels {
+  padding-left: 20px;
+  margin-right: 34px;
+}
+
+.checkmark {
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  background-color: $secondary-light;
+}
+
+.notification-item-icon {
+  text-align: center;
+  color: $white;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background: $primary;
+  display: inline-block;
+  max-width: 40px;
+  margin-right: 10px;
+  margin-top: 4px;
+  font-size: 18px;
+  padding-left: 12px;
+}
+
+.container-radio:hover input~.checkmark {
+  background-color: $secondary;
+}
+
+.container-radio input:checked~.checkmark {
+  background-color: $primary;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container-radio input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container-radio .checkmark:after {
+  right: 6px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid $white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .notification-header {
+    text-align: center;
+    padding-top: 5px;
+  }
+  .notification-message {
+    text-align: center;
+    font-size: 16px;
+  }
+  .size-align {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .notification-header {
+    text-align: center;
+    padding-top: 5px;
+  }
+  .notification-message {
+    text-align: center;
+    font-size: 16px;
+  }
+}

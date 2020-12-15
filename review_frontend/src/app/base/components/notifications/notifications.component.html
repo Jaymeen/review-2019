@@ -1,0 +1,110 @@
+<div class="container-fluid container-fluid-cst">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-header">
+                <h1 class="page-header--text">Notifications</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <div *ngIf="notificationTotalCount===0;else showNotifications">
+                        <div class="ml-3 mb-2 noRecords">No Notifications !!!</div>
+                    </div>
+                    <ng-template #showNotifications>
+                        <div class="row">
+                            <div class="col">
+                                <form [formGroup]="checkBoxGroup">
+                                    <label class="form-check-label container-radio">
+                                        <input formControlName="checkBox" name="markAllRead" value="MarkAllRead"
+                                            class="form-check-input" type="checkbox"
+                                            (click)="readAllConfirmation(template)" />
+                                        <span class="checkmark"></span>
+                                        <span class="labels">Mark all as Read</span>
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+
+                        <ng-template #template>
+                            <div class="modal-header">
+                                Confirm bulk action
+                                <button type="submit" class="close modal-close-button"
+                                    (click)="decline()">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p>This action will affect all {{notificationUnreadCount}} unread
+                                    notification(s), are you sure you want to continue?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn secondary-btn" (click)="decline()">No</button>
+                                <button type="submit" class="btn primary-btn" (click)="markAllAsRead()">Yes</button>
+                            </div>
+                        </ng-template>
+                        <div *ngFor="let notification of notificationData;index as i;" class="hide-last-element-border">
+                            <div class="row size-align notification-seperator"
+                                [ngClass]="checkall === true || notification['isSeen'] ? 'read-notifications' : null">
+                                <div class="notification-item-icon col-md-2 ">
+                                    <i *ngIf="notification['notificationType'] === 1 || 
+                                        notification['notificationType'] === 2 ||
+                                        notification['notificationType'] === 3" class="fa fa-calendar"
+                                        aria-hidden="true"></i>
+                                    <i *ngIf="notification['notificationType'] === 4 || 
+                                        notification['notificationType'] === 5 ||
+                                        notification['notificationType'] === 6 ||
+                                        notification['notificationType'] === 7 ||
+                                        notification['notificationType'] === 8" class="fa fa-file-text-o"></i>
+                                    <i *ngIf="notification['notificationType'] === 9" class="fa fa-commenting-o"
+                                        aria-hidden="true"></i>
+                                    <i *ngIf="notification['notificationType'] === 10 || 
+                                        notification['notificationType'] === 11 ||
+                                        notification['notificationType'] === 12" class="fa fa-file-o"
+                                        aria-hidden="true"></i>
+                                </div>
+                                <div class="col-md-6 notification">
+                                    <div class="notification-header">
+                                        <strong>
+                                            {{notification['notificationHeader']}}
+                                        </strong>
+                                        <a
+                                            (click)="redirectToPage(notification['notificationReference'], notification['notificationId'], i)">
+                                            <i class="fa fa-external-link fa-sm ml-3 text-primary"></i>
+                                        </a>
+                                    </div>
+                                    <div class="notification-message">
+                                        <span class="overflow-text" pTooltip="{{notification['notificationMessage']}}"
+                                            tooltipPosition="bottom">
+                                            {{notification['notificationMessage']}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col text-right">
+                                    <div class="pb-1">
+                                        {{notification['timeStamp'] | customDateTime}}
+                                    </div>
+                                    <div *ngIf="notification['isSeen'] === false; else readTemplate">
+                                        <button class="mr-2" (click)="markAsRead(notification['notificationId'], i)">
+                                            <i class="fa fa-sm mr-2 fa-square-o" aria-hidden="true"></i>Mark as
+                                            Read</button>
+                                        <button class="text-danger"
+                                            (click)="deleteNotification(notification['notificationId'], i, notification['isSeen'])">
+                                            <i class="fa fa-sm mr-2 fa-trash"></i>Delete</button>
+                                    </div>
+                                    <ng-template #readTemplate>
+                                        <button class="mr-2"><i class="fa fa-sm mr-2 fa-check-square-o"
+                                                aria-hidden="true"></i>Read</button>
+                                        <button class="text-danger"
+                                            (click)="deleteNotification(notification['notificationId'], i, notification['isSeen'])">
+                                            <i class="fa fa-sm mr-2 fa-trash"></i>Delete</button>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

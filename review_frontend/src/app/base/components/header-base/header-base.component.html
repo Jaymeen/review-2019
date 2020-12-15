@@ -1,0 +1,73 @@
+<!-- Placed on top due to visibility issues under another div -->
+
+    <ng-template #template class="modal">
+
+                    <div class="modal-header">
+                        Confirm bulk action
+                        <button type="submit" class="close modal-close-button" (click)="decline()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This action will affect all {{notificationUnreadCount}} unread
+                            notification(s), are you sure you want to continue?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn secondary-btn" (click)="decline()">No</button>
+                        <button type="submit" class="btn primary-btn"  (click)="markAllAsRead()">Yes</button>
+                    </div>       
+    </ng-template>
+
+
+<nav class="navbar navbar-expand-sm bg-white navbar-dark header">
+    <div class="navbar-brand">
+        <a (click)="homeredirect()"><img src="../../../../assets/images/new.1.png" alt="logo" class="pr-4 mr-2"> </a>
+        <a id="menu-toggle" (click)="onClick()"><img src="../../../../assets/images/menu.png" alt="logo"
+                float="right"></a>
+    </div>
+    <ul class="navbar-nav ml-auto">
+        <li class="notificationIcon">
+            <div class="dropdown show">
+                <a role="button" (click)="getNotificationData()" title="Notifications" id="dropdownMenuLink"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                        class="fa fa-lg fa-bell-o text-primary"></i><sup *ngIf="notificationUnreadCount > 0;"
+                        class="supertag">{{notificationUnreadCount}}</sup></a>
+                <div class="dropdown-menu dropdown-menu-right cst-notification-dropdown" aria-labelledby="dropdownMenuLink">
+                    <div class="dropdown-header">Notifications
+                         <a (click)="openModal(template)" class="read-all-link">Mark all as read</a>
+                    </div>
+                    <ul class="notification-dropdown">
+                        <div *ngIf="notificationTotalCount != 0;else noRecords">
+                            <li class="dropdown-item notifications-list"
+                                *ngFor="let item of notificationData; index as i;"
+                                (click)="markAsRead(item['notificationReference'], item['notificationId'], i)"
+                                [ngClass]="item['isSeen'] ? 'read-notifications' : null">
+                                <div class="notification-item-icon">
+                                    <i *ngIf="item['notificationType'] === 1 || item['notificationType'] === 2 || item['notificationType'] === 3"
+                                        class="fa fa-calendar"></i>
+                                    <i *ngIf="item['notificationType'] === 4 || item['notificationType'] === 5 || item['notificationType'] === 6 || item['notificationType'] === 7 || item['notificationType'] === 8"
+                                        class="fa fa-file-text-o"></i>
+                                    <i *ngIf="item['notificationType'] === 9" class="fa fa-commenting-o"></i>
+                                    <i *ngIf="item['notificationType'] === 10 || item['notificationType'] === 11 || item['notificationType'] === 12"
+                                        class="fa fa-file-o"></i>
+                                </div>
+                                <div class="notification-item-text">
+                                    <span class="notification-header">{{item['notificationHeader']}}</span>
+                                    <span class="notification-text">{{item['notificationMessage']}}</span>
+                                    <span
+                                        class="notification-date">{{item['timeStamp'] | customDateTime}}</span>
+                                </div>
+                            </li>
+                        </div>
+                        <ng-template #noRecords>
+                            <div class="noRecords text-box-center">No Notifications!!!</div>
+                        </ng-template>
+                    </ul>
+                    <div class="dropdown-footer" (click)="navigateToNotifications()">View All</div>
+                </div>
+            </div>
+        </li>
+        <li class="ml-4 mr-3 cursor-pointer">
+            <img src="../../../../assets/images/login-out.png" title="Logout" alt="logo" float="right" height="18px"
+                (click)="socialSignOut()" width="24px">
+        </li>
+    </ul>
+</nav>

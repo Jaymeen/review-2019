@@ -1,0 +1,70 @@
+@import "../../../../scss/colors.scss";
+
+.max-height {
+  max-height: 68vh;
+  overflow-y: scroll;
+}
+
+.form-components {
+  padding: 15px;
+}
+
+.form-components-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    display: block;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px dashed $secondary-dark;
+    border-radius: 4px;
+    cursor: move;
+    transition: all 0.3s;
+    &:hover {
+      background: $secondary-light;
+    }
+    .icon {
+      margin-right: 5px;
+    }
+  }
+}
+
+.sub-header {
+  font-size: 18px;
+  text-align: left;
+  color: $secondary-dark;
+}
+
+.info-text {
+  color: $grey;
+}
+
+.drop-area {
+  border: 2px dashed $secondary-light;
+  border-radius: 4px;
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  > * {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .sub-header {
+    font-size: 22px;
+    text-align: center;
+  }
+  &.remove-border {
+    border: 0px dashed $secondary-light;
+  }
+}
+
+.border-bottom {
+  border-bottom: 1px solid $secondary-light !important;
+  padding: 4px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

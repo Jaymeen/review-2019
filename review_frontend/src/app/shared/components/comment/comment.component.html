@@ -1,0 +1,77 @@
+<form [formGroup]="commentForm" (submit)="sendComment()" *ngIf="status === flag">
+    <div class="comment-add">
+        <div class="comment-imge">
+            <img src="{{image}}" alt="{{imageIcon}}">
+        </div>
+        <div class="comment-text-area">
+            <textarea formControlName="comment" (click)="commentBox()" placeholder="Add HTML embed comments....."
+                pInputTextarea autoResize=true [rows]=1 autofocus></textarea>
+            <div *ngIf="!!formControls.invalid && submittedComment" class="invalid-message">
+                <small
+                    *ngIf="submittedComment && (!!formControls.errors.required || (!!formControls.errors.dataAbsents && !!formControls.touched))"
+                    class="text-danger">Comment is required</small>
+                <small *ngIf="!!formControls.errors.maxlength" class="text-danger">Exceeded 100 characters
+                    limit</small>
+            </div>
+        </div>
+        <div class="comment-send">
+            <button [disabled]="!enableButton" class="btn primary-btn"><i class="fa fa-paper-plane"></i></button>
+        </div>
+    </div>
+</form>
+<ul class="comments-list">
+    <li *ngFor="let comment of commentData.comments; let i = index">
+        <ng-container *ngIf="userData.user_id!==reviewee || comment.visibility">
+            <div class="child col-1" *ngIf="comment.parentId !== comment.commentId"></div>
+            <div class="user-image">
+                <span class="no-image" *ngIf="!comment.systemGeneratedFlag">{{comment.sender[0]}}</span>
+                <img *ngIf="comment.systemGeneratedFlag" src="../../../../assets/images/chat-bot-icon.jpg">
+            </div>
+            <div class="comment-text">
+                <h5 class="sender-name">
+                    <span *ngIf="!comment.systemGeneratedFlag">{{comment.sender}}</span>
+                    <span *ngIf="comment.systemGeneratedFlag">ERS Bot</span>
+                    <span class="time">{{comment.creationTime | customDateTime}}</span>
+                </h5>
+                <div class="comment-body" [innerHTML]="comment.comment"></div>
+                <div class="reply-box">
+                    <form [formGroup]="commentForm">
+                        <button class="reply-btn" *ngIf="comment.parentId === comment.commentId"
+                            (click)="changeCommentIndex(i)">Reply</button>
+                        <label class="d-inline" *ngIf="userData.role === 'ROLE_SADMIN'">
+                            <div class="toggle-switch">
+                                <ui-switch [checked]="comment.visibility" (change)="changeVisibility(i)" size="small"
+                                    color="#832e5b">
+                                </ui-switch>
+                            </div>
+                            <div class="d-inline visibility-label">Make it public</div>
+                        </label>
+                        <ng-container *ngIf="status === flag">
+                            <div class="reply-text-area" *ngIf="commentIndex === i">
+                                <div class="reply-text-area-item">
+                                    <textarea formControlName="comment" (click)="commentBox(i)"
+                                        placeholder="Add HTML embed comments....." pInputTextarea autoResize=true
+                                        [rows]=1 autofocus></textarea>
+                                    <div *ngIf="!!formControls.invalid && submittedReply" class="invalid-message">
+                                        <small
+                                            *ngIf="submittedReply && (!!formControls.errors.required || (!!formControls.errors.dataAbsents && !!formControls.touched))"
+                                            class="text-danger">Comment is required</small>
+                                        <small *ngIf="!!formControls.errors.maxlength" class="text-danger">Exceeded 100
+                                            characters
+                                            limit</small>
+                                    </div>
+                                </div>
+                                <div class="reply-text-area-btn">
+                                    <button class="btn primary-btn"
+                                        (click)="sendComment(i, comment.parentId, comment.visibility)">
+                                        <i class="fa fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </form>
+                </div>
+            </div>
+        </ng-container>
+    </li>
+</ul>

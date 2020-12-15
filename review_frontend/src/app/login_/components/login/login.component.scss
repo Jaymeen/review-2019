@@ -1,0 +1,84 @@
+@import "../../../../scss/colors.scss";
+$_url: 'src/assets/images/bg.jpg';
+
+.bg-white {
+  background-color: $white;
+}
+
+#navmenu {
+  position: fixed;
+  height: 75px;
+  width: 100%;
+  box-shadow: 0 1px 4px 0px rgba(0, 0, 0, 0.16);
+  z-index: 1;
+}
+
+.image {
+  background-image: url($_url);
+  position: absolute;
+  height: 100%;
+}
+
+.decoration {
+  font-size: 27px;
+  font-weight: 500;
+  color: $primary-light;
+}
+
+.google-button {
+  background: $primary;
+  color: $white;
+  font-weight: 500;
+  border-radius: 32px;
+  border: 0px solid $black;
+  
+  &:focus,
+  &:hover {
+    outline: none;
+    box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.google-button-icon {
+  display: inline-block;
+  margin: 8px 0 15px 8px;
+  width: 18px;
+  height: 18px;
+}
+
+.google-button-text {
+  vertical-align: middle;
+  padding: 0 15px;
+  font-weight: bold;
+}
+
+.google-logo {
+  width: 25px;
+  height: 25px;
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .google-logo {
+    width: 20px;
+    height: 20px;
+  }
+  .google-button-text {
+    font-size: 12px;
+  }
+  .decoration {
+    font-size: 21px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .google-logo {
+    width: 20px;
+    height: 20px;
+  }
+  .google-button-text {
+    font-size: 12px;
+  }
+  .decoration {
+    font-size: 21px;
+  }
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <style>
+        @media screen and (max-width: 600px) {
+            table {
+                width: 100% !important;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body style="margin: 0px;">
+    <table
+        style="width: 600px; background: #fff; margin: 0 auto; font-family: 'Roboto', sans-serif; border:1px solid #e4e4e4; padding: 0px; margin: 0x; border-spacing: 0px; border-radius: 5px;">
+        <tr>
+            <td style="padding: 10px 15px; border-bottom: 1px solid #e4e4e4;"><img
+                    src="https://argusoft.com/images/logo.png" alt="Argusoft | Quality on Time" /></td>
+        </tr>
+        <tr>
+            <td
+                style="line-height: 24px; font-size: 16px;  padding: 30px 15px; background:#fafafa; border-bottom: 1px solid #e4e4e4;">
+                <span style="font-weight: 600;">Dear <%= recipient_name %>,</span>
+                <p style="margin: 0px;">
+                    <%= emailTag %>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td style="line-height: 24px; font-size: 15px;  padding: 10px 15px;">
+                <h2 style="color:#903564"> Details of <%= bodyTitle %> :</h2>
+                <!-- Change This section for diffrent type of mail. Keep the format same -->
+                <%- emailBody %>
+                <!-- End: Change This section for diffrent type of mail. Keep the format same -->
+            </td>
+        </tr>
+        <tr>
+            <td style="line-height: 24px; font-size: 15px;  padding: 10px 15px;">
+                <p style="margin: 0px;">
+                    <span style="display: block;">--</span>
+                    <span style="display: block; font-weight: 600;">Employee Review System</span>
+                    <span style="display: block;">Argusoft</span>
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
